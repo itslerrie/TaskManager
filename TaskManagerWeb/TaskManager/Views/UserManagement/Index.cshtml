@@ -1,0 +1,40 @@
+﻿@model ListUserVM
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Users</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.Partial("~/Views/Shared/_Search.cshtml", Model.Filter)
+
+<table class="table">
+    <tr>
+        <th>Username</th>
+        <th>Full Name</th>
+        <th>E-mail</th>
+        <th>Admin</th>
+        <th>Options</th>
+
+    </tr>
+
+@foreach (var item in Model.Items)
+{
+    <tr>
+        <td>@item.Username</td>
+        <td>@item.Fullname</td>
+        <td>@item.Email</td>
+        <td>@item.IsAdmin</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+@Html.Partial("~/Views/Shared/_Pager.cshtml", Model.Pager)

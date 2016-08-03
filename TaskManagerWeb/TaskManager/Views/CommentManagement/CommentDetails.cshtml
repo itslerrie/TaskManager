@@ -1,0 +1,61 @@
+﻿@model TaskManager.ViewModels.CommentVM.DetailsCommentVM
+
+@{
+    ViewBag.Title = "CommentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    User creator = new User();
+
+    foreach (var item in Model.users)
+    {
+        if (item.Id == Model.CreatorId)
+        {
+            creator = item;
+        }
+    }
+}
+
+<h2>Comment Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tittle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tittle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+
+        <dd>
+            @creator.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back", "Details","TaskManagement",new {id = Model.TaskId },null)
+</p>

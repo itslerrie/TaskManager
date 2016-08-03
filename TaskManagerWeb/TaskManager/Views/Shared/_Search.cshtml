@@ -1,0 +1,68 @@
+﻿@model TaskManager.ViewModels.BaseFilter
+
+@using System.Reflection;
+@using TaskManager.Tools;
+
+@{
+    var filter = new Dictionary<PropertyInfo, FilterByAttribute>();
+    foreach (PropertyInfo pi in Model.GetType().GetProperties())
+    {
+        FilterByAttribute attrib = (FilterByAttribute)pi.GetCustomAttribute(typeof(FilterByAttribute));
+        if (attrib != null)
+        {
+            filter.Add(pi, attrib);
+        }
+    }
+
+    string path = "";
+
+    try
+    {
+        if (ViewContext.RouteData.Values["id"].ToString() != null)
+        {
+            path = "/" + ViewContext.RouteData.Values["controller"].ToString() + "/" + ViewContext.RouteData.Values["action"].ToString() + "/" + ViewContext.RouteData.Values["id"].ToString();
+        }
+    }
+    catch (Exception)
+    {
+        path = "/" + ViewContext.RouteData.Values["controller"].ToString() + "/" + ViewContext.RouteData.Values["action"].ToString();
+    }
+
+}
+<form action="@path" method="get">
+
+    @foreach (string key in this.Request.QueryString.Keys)
+    {
+        if (!key.ToString().Contains(Model.Prefix) && key.ToString() != Model.Pager.Prefix + "CurrentPage" && key.ToString() != "id")
+        {
+            <input type="hidden" id="@((Model.Prefix + key).Replace(".", "__"))" name="@key" value="@this.Request[key].ToString()" />
+        }
+    }
+
+    @foreach (var kvp in this.ViewContext.RouteData.Values)
+    {
+        if (kvp.Key == "controller" || kvp.Key == "action" || kvp.Key.ToString() == Model.Pager.Prefix + "CurrentPage" || kvp.Key.ToString() == "id")
+        {
+            continue;
+        }
+
+        <input type="hidden" id="@((Model.Prefix + kvp.Key).Replace(".", "__"))" name="@kvp.Key" value="@kvp.Value.ToString()" />
+    }
+
+    @foreach (var key in this.Request.Form.Keys)
+    {
+        if (filter.Count(f => Model.Prefix + f.Key.Name == key.ToString()) <= 0 && key.ToString() != Model.Pager.Prefix + "CurrentPage" && key.ToString() != "id")
+        {
+            <input type="hidden" id="@((Model.Prefix + key).Replace(".", "__"))" name="@key.ToString()" value="@this.Request.Form[key.ToString()].ToString()" />
+        }
+    }
+
+    @foreach (KeyValuePair<PropertyInfo, FilterByAttribute> kvp in filter)
+    {
+        <label for="@(Model.Prefix.Replace(".", "__"))@kvp.Key.Name">@kvp.Value.DisplayName</label>
+        <input class = "form-control" id="@(Model.Prefix.Replace(".", "__"))@kvp.Key.Name" type="text" name="@(Model.Prefix)@kvp.Key.Name" value="@kvp.Key.GetValue(Model, null)" />
+    }
+    <br/>
+    <input class = "btn btn-default" type="submit" value="Filter" />   
+</form>
+<br />   

@@ -1,0 +1,91 @@
+﻿@model TaskManager.ViewModels.PagerVM
+
+@{
+    var PageSize_ChangeFunction = Model.Prefix.Replace(".", "__") + "onChange";
+    var pageSizeTemplate = "/" + this.ViewContext.RouteData.Values["controller"].ToString() + "/" + this.ViewContext.RouteData.Values["action"].ToString() + "?";
+    var currentPageTemplate = "/" + this.ViewContext.RouteData.Values["controller"].ToString() + "/" + this.ViewContext.RouteData.Values["action"].ToString() + "?";
+
+    foreach (string key in this.Request.QueryString.Keys)
+    {
+        if (key != Model.Prefix + "PageSize" && key != Model.Prefix + "CurrentPage")
+        {
+            pageSizeTemplate += key + "=" + this.Request[key] + "&";
+        }
+
+        if (key != Model.Prefix + "CurrentPage")
+        {
+            currentPageTemplate += key + "=" + this.Request[key] + "&";
+        }
+    }
+
+    foreach (var kvp in this.ViewContext.RouteData.Values)
+    {
+        if (kvp.Key == "controller" || kvp.Key == "action")
+        {
+            continue;
+        }
+
+        if (kvp.Key != Model.Prefix + "PageSize" && kvp.Key != Model.Prefix + "CurrentPage")
+        {
+            pageSizeTemplate += kvp.Key + "=" + this.ViewContext.RouteData.Values[kvp.Key] + "&";
+        }
+
+        if (kvp.Key != Model.Prefix + "CurrentPage")
+        {
+            currentPageTemplate += kvp.Key + "=" + this.ViewContext.RouteData.Values[kvp.Key] + "&";
+        }
+    }
+
+    foreach (string key in this.Request.Form.Keys)
+    {
+        if (key != Model.Prefix + "PageSize" && key != Model.Prefix + "CurrentPage")
+        {
+            pageSizeTemplate += key + "=" + this.Request[key] + "&";
+        }
+
+        if (key != Model.Prefix + "CurrentPage")
+        {
+            currentPageTemplate += key + "=" + this.Request[key] + "&";
+        }
+    }
+}
+
+<script>
+    function @(PageSize_ChangeFunction)() {
+        var link = '@Html.Raw(pageSizeTemplate)';
+        link = link + "@(Model.Prefix)PageSize=" + $("#@(Model.Prefix.Replace(".", "__"))PageSize").val();
+
+        window.location = link;
+    }
+</script>
+<style>
+    #right {
+        display: inline-block;
+        float: left;
+        padding: 10px;
+        margin-top: 10px;
+        padding-left: 0px;
+    }
+</style>
+
+Page @(Model.PagesCount < Model.CurrentPage ? 0 : Model.CurrentPage) of @Model.PagesCount
+<br />
+
+<div>
+<ul class="pagination">
+    @for (int i = 0; i < Model.PagesCount; i++)
+    {
+        <li class="page-item @(Model.CurrentPage == i+1 ? "active" : "")">
+            <a class="page-link" href="@(currentPageTemplate)@(Model.Prefix)CurrentPage=@(i+1)">@(i+1)</a>
+        </li>
+    }
+</ul>
+
+    <p id="right">
+        <select class="form-control" id="@(Model.Prefix.Replace(".", "__"))PageSize" name="@(Model.Prefix)PageSize" onchange="@(PageSize_ChangeFunction)()">
+            <option value="1" @(Model.PageSize == 1 ? "selected" : "")>1</option>
+            <option value="5" @(Model.PageSize == 5 ? "selected" : "")>5</option>
+            <option value="10" @(Model.PageSize == 10 ? "selected" : "")>10</option>
+        </select>
+    </p>
+</div>

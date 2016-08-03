@@ -1,0 +1,198 @@
+﻿@model TaskManager.ViewModels.TaskVM.DetailsTaskVM
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    User creator = new User();
+    User edited = new User();
+    User assigned = new User();
+
+    foreach (var item in Model.users)
+    {
+        if (item.Id == Model.CreatorId)
+        {
+            creator = item;
+        }
+        if (item.Id == Model.AssigneeId)
+        {
+            assigned = item;
+        }
+        if (item.Id == Model.EditedBy)
+        {
+            edited = item;
+        }
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tittle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tittle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssigneeId)
+        </dt>
+
+        <dd>
+            @assigned.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+
+        <dd>
+            @creator.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedBy)
+        </dt>
+
+        <dd>
+            @edited.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+       @if (Model.Status == true)
+            {
+        <dd>Resolved</dd>
+       }
+       else
+       {
+        <dd>Reopen</dd>
+       }
+
+    </dl>
+</div>
+
+<h2>Work Log</h2>
+
+@Html.Partial("~/Views/Shared/_Search.cshtml", Model.LoggedWorkVM.Filter)
+
+<table class="table">
+    <tr>
+        <th>
+            Username:
+        </th>
+        <th>
+            E-mail:
+        </th>
+        <th>
+            Working Hours:
+        </th>
+        <th>
+            Date:
+        </th>
+    </tr>
+    
+    @foreach (LogWork item in Model.LoggedWorkVM.Items)
+    {
+        <tr>
+            <td>@item.Username</td>
+            <td>@item.Email</td>
+            <td>@item.Time</td>
+            <td>@item.Date</td>
+        </tr>
+    }
+    
+</table>
+
+@Html.Partial("~/Views/Shared/_Pager.cshtml", Model.LoggedWorkVM.Pager)
+
+<h2>Comments</h2>
+<p>
+    @Html.ActionLink("Create New", "CreateComment", "CommentManagement", new { id = Model.Id }, null)
+</p>
+
+@Html.Partial("~/Views/Shared/_Search.cshtml", Model.CommentsVM.Filter)
+
+<table class="table">
+    <tr>
+        <th>
+            Tittle:
+        </th>
+        <th>
+            Creator:
+        </th>
+        <th>
+            Date Created:
+        </th>
+        <th>
+            Options:
+        </th>
+    </tr>
+
+    @foreach (Comment item in Model.CommentsVM.Items)
+    {
+        <tr>
+            <td>@item.commentTittle</td>
+
+            @foreach (User userItem in Model.users)
+            {
+                if (userItem.Id == item.commentCreatorId)
+                {
+                    <td>@userItem.Username</td>
+                }
+            }
+
+            <td>@item.Date</td>
+            <td>
+                @Html.ActionLink("Details", "CommentDetails", "CommentManagement", new { id = item.Id }, null) |
+                @Html.ActionLink("Delete", "DeleteComment", "CommentManagement", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+<p>
+    @Html.ActionLink("Back", "Index")
+</p>
+
+@Html.Partial("~/Views/Shared/_Pager.cshtml", Model.CommentsVM.Pager)

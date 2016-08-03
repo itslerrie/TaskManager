@@ -1,0 +1,75 @@
+﻿@model TaskManager.ViewModels.CommentVM.DeleteCommentVM
+
+@{
+    ViewBag.Title = "DeleteComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    User creator = new User();
+
+    foreach (var item in Model.users)
+    {
+        if (item.Id == Model.CreatorId)
+        {
+            creator = item;
+        }
+    }
+}
+
+<h2>Delete Comment</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tittle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tittle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+
+        <dd>
+            @creator.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt></dt>
+        <dd>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" />
+            </div>
+        }
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+            @Html.ActionLink("Back", "Details","TaskManagement",new { id = Model.TaskId},null)
+    }
+</div>

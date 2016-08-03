@@ -1,0 +1,10 @@
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\obj\Debug\SQLDataAccess.csprojResolveAssemblyReference.cache
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\SQLDataAccess.dll.config
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\SQLDataAccess.dll
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\SQLDataAccess.pdb
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\EntityFramework.dll
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\EntityFramework.xml
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\obj\Debug\SQLDataAccess.dll
+C:\Users\LALEV\Desktop\Back-End\TaskManagerWeb\TaskManagerWeb\SQLDataAccess\obj\Debug\SQLDataAccess.pdb

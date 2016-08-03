@@ -1,0 +1,64 @@
+﻿@model TaskManager.ViewModels.TaskVM.ListTaskVM
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tasks</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@Html.Partial("~/Views/Shared/_Search.cshtml", Model.Filter)
+
+
+<table class="table">
+    <tr>
+        <th>
+            Task Name:
+        </th>
+        <th>
+            Working Hours:
+        </th>
+        <th>
+            Status:
+        </th>
+        <th>
+            Options:
+        </th>
+    </tr>
+
+@foreach (var item in Model.Items)
+{
+    <tr>
+        <td>@item.tittle</td>
+        <td>@item.estimate</td>
+        @if (item.finnished == true)
+        {
+            <td>
+                Resolved
+            </td>
+        }
+        else
+        {
+            <td>
+                Reopen
+            </td>
+        }
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+            @Html.ActionLink("Change Status", "Status", new { id = item.Id }) |
+            @Html.ActionLink("Set Hours", "SetHours", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+@Html.Partial("~/Views/Shared/_Pager.cshtml",Model.Pager)

@@ -1,0 +1,134 @@
+﻿@model TaskManager.ViewModels.TaskVM.DeleteTaskVM
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    User creator = new User();
+    User edited = new User();
+    User assigned = new User();
+
+    foreach (var item in Model.users)
+    {
+        if (item.Id == Model.CreatorId)
+        {
+            creator = item;
+        }
+        if (item.Id == Model.AssigneeId)
+        {
+            assigned = item;
+        }
+        if (item.Id == Model.EditedBy)
+        {
+            edited = item;
+        }
+    }
+}
+
+<script>
+    if (Model.CreatorId != TaskManager.Models.AuthenticationManager.LoggedUser.Id) {
+            window.location = "/TaskManagement/Index";
+    }
+</script>
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tittle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tittle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssigneeId)
+        </dt>
+
+        <dd>
+            @assigned.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+
+        <dd>
+            @creator.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreateOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreateOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedBy)
+        </dt>
+
+        <dd>
+            @edited.Username
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkingHours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkingHours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+            @if (Model.Status == true)
+            {
+            <dd>Resolved</dd>
+            }
+            else
+            {
+              <dd>Reopen</dd>
+            }
+
+        <dd>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                </div>
+            }
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+            @Html.ActionLink("Back", "Index")
+    }
+</div>

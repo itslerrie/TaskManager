@@ -1,0 +1,36 @@
+1
+lerri
+lerri
+Leri Leri
+lerri@admin.admin
+True
+2
+skip
+sk1p
+skip4encence
+skip@skip.skip
+True
+3
+no_one
+noone
+Aria Stark
+aria.stark@no.one
+False
+4
+deadpool
+hakunamytatas
+DeadPool
+hakuna@my.tatas
+False
+5
+zero
+zero
+zeeeerooo
+zero@zero.zero
+False
+6
+new
+new
+new
+new@new.new
+False
